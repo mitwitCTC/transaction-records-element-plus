@@ -6,6 +6,9 @@ import {
   ElPagination,
 } from 'element-plus';
 
+import FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+
 const Api = 'https://5644-122-116-23-30.ngrok-free.app';
 
 export default {
@@ -141,6 +144,19 @@ export default {
     }
   },
   methods: {
+    exportExcel() {
+      let xlsxParam = { raw: true };
+      let wb = XLSX.utils.table_to_book(document.querySelector('#transactionsTable'), xlsxParam);
+      const wbout = XLSX.write(wb, { booklype: 'xlsx', bookSST: true, type: 'array' });
+      try {
+        FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), `儲值扣抵明細.xlsx`);
+      } catch (e) {
+        if (typeof console !== undefined) {
+          console.log(e, wbout);
+        }
+      }
+      return wbout
+    },
     getDetails() {
       this.isLoading = true;
       this.plate = atob(this.$route.params.plate);
@@ -180,7 +196,7 @@ export default {
       }
     },
     // 清除搜尋結果
-    clear(){
+    clear() {
       this.startDate = "";
       this.endDate = "";
       this.getDetails();
@@ -253,7 +269,7 @@ export default {
       <button class="btn btn-outline-primary" style="margin-left: 10px;" @click="clear">清除搜尋結果</button>
     </section>
     <section>
-      <button class="btn btn-primary text-white">匯出</button>
+      <button class="btn btn-primary text-white" @click="exportExcel">匯出</button>
     </section>
   </div>
   <div v-if="!isLoading" class="content mt-3">
@@ -272,6 +288,20 @@ export default {
       <el-table-column label="入場時間" prop="arrivalTime" align="center" width="200"></el-table-column>
       <el-table-column label="變動時間" prop="logTime" align="center" width="200"></el-table-column>
       <el-table-column label="買方統編" prop="Bidentifier" align="center" width="100"></el-table-column>
+      <el-table-column label="買方抬頭" prop="BName" align="center" width="100"></el-table-column>
+    </el-table>
+  </div>
+  <div class="none">
+    <el-table :data="transactions" id="transactionsTable" class="el-table" style="font-size: 1rem;" stripe>
+      <el-table-column label="場站" prop="name" align="center" width="90"></el-table-column>
+      <el-table-column label="賣方統編" prop="parkTax" align="center" width="100"></el-table-column>
+      <el-table-column label="車號" prop="plate" align="center" width="100"></el-table-column>
+      <el-table-column label="發票號碼" prop="invoice" align="center" width="150"></el-table-column>
+      <el-table-column label="金額" prop="totalAmount" align="center" width="80"></el-table-column>
+      <el-table-column label="隨機碼" prop="randomCode" align="center" width="80"></el-table-column>
+      <el-table-column label="發票日期" prop="invoiceDate" align="center" width="150"></el-table-column>
+      <el-table-column label="買方統編" prop="Bidentifier" align="center" width="100"></el-table-column>
+      <el-table-column label="買方抬頭" prop="BName" align="center" width="100"></el-table-column>
     </el-table>
   </div>
   <div v-if="!isLoading" class="content pagination">
@@ -297,5 +327,9 @@ export default {
   position: fixed;
   top: 93%;
   left: 35%;
+}
+
+.none{
+  display: none;
 }
 </style>
