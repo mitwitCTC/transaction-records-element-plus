@@ -8,7 +8,7 @@ import 'element-plus/theme-chalk/index.css';
 
 
 
-const Api = 'https://b0fc-122-116-23-30.ngrok-free.app';
+const Api = 'https://5644-122-116-23-30.ngrok-free.app';
 
 export default {
     components: {
@@ -90,7 +90,7 @@ export default {
             <el-table-column align="center" prop="user_acc" label="帳號" />
             <el-table-column align="center" label="查看">
                 <template #default="scope">
-                    <el-button @click="viewDetails(scope.row)">查看详情</el-button>
+                    <el-button @click="viewDetails(scope.row)">查看明細</el-button>
                 </template>
             </el-table-column>
         </el-table>
