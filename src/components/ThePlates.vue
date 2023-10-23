@@ -8,7 +8,7 @@ import 'element-plus/theme-chalk/index.css';
 
 
 
-const Api = 'https://5644-122-116-23-30.ngrok-free.app';
+const Api = 'https://2091-122-116-23-30.ngrok-free.app';
 
 export default {
     components: {
