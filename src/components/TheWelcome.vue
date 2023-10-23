@@ -9,7 +9,7 @@ import {
 import FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
-const Api = 'https://5644-122-116-23-30.ngrok-free.app';
+const Api = 'https://2091-122-116-23-30.ngrok-free.app';
 
 export default {
   data() {
@@ -144,6 +144,11 @@ export default {
     }
   },
   methods: {
+    handleDateChange(date) {
+      this.startDate = date[0];
+      this.endDate = date[1];
+      this.showCalendar = false;
+    },
     exportExcel() {
       let xlsxParam = { raw: true };
       let wb = XLSX.utils.table_to_book(document.querySelector('#transactionsTable'), xlsxParam);
@@ -259,7 +264,7 @@ export default {
     </div>
     <div>努力加載中，請稍候...</div>
   </div>
-  <div v-if="!isLoading" class="content mt-3 d-flex justify-content-between">
+  <div v-if="!isLoading" class="content mt-3 md">
     <section>
       <span class="me-3">請選擇區間搜尋</span>
       <input type="date" class="pe-3 me-2" v-model="startDate" :min="maxSearchFromDate" :max="currentDate">
@@ -272,8 +277,23 @@ export default {
       <button class="btn btn-primary text-white" @click="exportExcel">匯出</button>
     </section>
   </div>
+  <div v-if="!isLoading" class="content mt-3 sm">
+    <section class="d-flex justify-content-center">
+      <input type="date" class="pe-3 me-2" v-model="startDate" :min="maxSearchFromDate" :max="currentDate">
+      <span>～ </span>
+      <input type="date" class="pe-3 me-2" v-model="endDate" :min="maxSearchFromDate" :max="currentDate">
+    </section>
+    <section class="mt-2 d-flex justify-content-between">
+      <div>
+        <button class="btn btn-sm btn-primary text-white me-3" @click="search">搜尋</button>
+        <!-- <img src="../assets/reset.png" alt="reset" @click="clear"> -->
+        <button class="btn btn-sm btn-outline-primary" style="margin-left: 10px;" @click="clear">清除搜尋結果</button>
+      </div>
+      <button class="btn btn-sm btn-primary text-white" @click="exportExcel">匯出</button>
+    </section>
+  </div>
   <div v-if="!isLoading" class="content mt-3">
-    <el-table :data="paginatedData" class="el-table" style="font-size: 1rem;" stripe>
+    <el-table :data="paginatedData" class="el-table" stripe height="48vh">
       <el-table-column label="儲值種類" prop="chargeType" align="center" width="60"></el-table-column>
       <el-table-column label="場站" prop="name" align="center" width="90"></el-table-column>
       <el-table-column label="賣方統編" prop="parkTax" align="center" width="100"></el-table-column>
@@ -304,9 +324,9 @@ export default {
       <el-table-column label="買方抬頭" prop="BName" align="center" width="100"></el-table-column>
     </el-table>
   </div>
-  <div v-if="!isLoading" class="content pagination">
+  <div v-if="!isLoading" class="pagination">
     <!-- pagination -->
-    <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]"
+    <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :current-page="currentPage"
       :page-size="pageSize" :total="transactions.length">
     </el-pagination>
   </div>
@@ -318,18 +338,39 @@ export default {
   margin: 0 auto;
 }
 
-.el-table {
-  width: 100%;
-  height: 80%;
-}
-
 .pagination {
-  position: fixed;
-  top: 93%;
-  left: 35%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
 }
 
-.none{
+.md {
+  display: flex;
+  justify-content: space-between;
+}
+
+.none {
   display: none;
+}
+
+.sm {
+  display: none;
+}
+
+@media (max-width: 576px) {
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sm {
+    display: block;
+  }
+
+  .md {
+    display: none;
+  }
 }
 </style>
