@@ -9,7 +9,7 @@ import {
 import FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
-const Api = 'https://2850-122-116-23-30.ngrok-free.app';
+const Api = 'https://b0bf-122-116-23-30.ngrok-free.app';
 
 export default {
   data() {
@@ -162,10 +162,15 @@ export default {
       }
       return wbout
     },
+    getMidnC() {
+      this.mid = this.$route.query.mid;
+      this.c = this.$route.query.c;
+    },
     getDetails() {
+      this.getMidnC();
       this.isLoading = true;
-      this.plate = atob(this.$route.params.plate);
-      const getDetailsApi = `${Api}/main/detail`;
+      this.plate = atob(sessionStorage.getItem('plate'));
+      const getDetailsApi = `${Api}/main/detail/${this.mid}&${this.c}`;
       this.$http
         .post(getDetailsApi, { plate: this.plate })
         .then((response) => {
@@ -183,7 +188,7 @@ export default {
     },
     search() {
       this.isLoading = true;
-      const searchApi = `${Api}/main/search`;
+      const searchApi = `${Api}/main/search/${this.mid}&${this.c}`;
       this.searchData = { plate: this.plate, startDate: this.startDate, endDate: this.endDate };
       if (this.startDate == '' || this.endDate == '') {
         alert('區間不得為空，請重新選擇日期區間搜尋');

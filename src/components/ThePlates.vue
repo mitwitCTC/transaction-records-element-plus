@@ -8,7 +8,7 @@ import 'element-plus/theme-chalk/index.css';
 
 
 
-const Api = 'https://2850-122-116-23-30.ngrok-free.app';
+const Api = 'https://b0bf-122-116-23-30.ngrok-free.app';
 
 export default {
     components: {
@@ -45,12 +45,15 @@ export default {
                 }
             ],
             isLoading: true,
+            mid: '',
+            c: '',
         }
     },
     methods: {
         // 車號清單
         getPlateList() {
-            const getPlateListApi = `${Api}/main/PlateList`;
+            this.getMidnC();
+            const getPlateListApi = `${Api}/main/PlateList/${this.mid}&${this.c}`;
             this.$http
                 .post(getPlateListApi)
                 .then((response) => {
@@ -60,8 +63,19 @@ export default {
         },
         // 查看儲值扣抵明細
         viewDetails(row) {
-            const checkPlate = row.plate;
-            this.$router.push({ name: 'home', params: { plate: checkPlate } })
+            const checkPlate = btoa(row.plate);
+            sessionStorage.setItem('plate', checkPlate)
+            this.$router.push({
+                name: 'home',
+                query: {
+                    mid: this.mid,
+                    c: this.c
+                },
+            })
+        },
+        getMidnC() {
+            this.mid = this.$route.query.mid;
+            this.c = this.$route.query.c;
         },
     },
     mounted() {
