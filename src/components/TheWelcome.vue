@@ -9,7 +9,7 @@ import {
 import FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
-const Api = 'https://2091-122-116-23-30.ngrok-free.app';
+const Api = 'https://2850-122-116-23-30.ngrok-free.app';
 
 export default {
   data() {
@@ -165,7 +165,7 @@ export default {
     getDetails() {
       this.isLoading = true;
       this.plate = atob(this.$route.params.plate);
-      const getDetailsApi = `${Api}/main/detail2`;
+      const getDetailsApi = `${Api}/main/detail`;
       this.$http
         .post(getDetailsApi, { plate: this.plate })
         .then((response) => {
@@ -269,7 +269,7 @@ export default {
       <span class="me-3">請選擇區間搜尋</span>
       <input type="date" class="pe-3 me-2" v-model="startDate" :min="maxSearchFromDate" :max="currentDate">
       <span>～ </span>
-      <input type="date" class="pe-3 me-2" v-model="endDate" :min="maxSearchFromDate" :max="currentDate">
+      <input type="date" class="pe-3 me-2 my-1" v-model="endDate" :min="maxSearchFromDate" :max="currentDate">
       <button class="btn btn-primary text-white" @click="search">搜尋</button>
       <button class="btn btn-outline-primary" style="margin-left: 10px;" @click="clear">清除搜尋結果</button>
     </section>

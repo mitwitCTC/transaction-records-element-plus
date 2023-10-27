@@ -8,7 +8,7 @@ import 'element-plus/theme-chalk/index.css';
 
 
 
-const Api = 'https://2091-122-116-23-30.ngrok-free.app';
+const Api = 'https://2850-122-116-23-30.ngrok-free.app';
 
 export default {
     components: {
@@ -84,10 +84,10 @@ export default {
     </div>
     <div v-if="!isLoading" class="container">
         <el-table :data="plateList" stripe style="align-items: center" width="100%" height="60vh">
-            <el-table-column align="center" prop="name" width="90" label="場站" />
-            <el-table-column align="center" prop="plate" width="100" label="車號" />
-            <el-table-column align="center" prop="user_name" width="80" label="用戶名" />
-            <el-table-column align="center" prop="user_acc" width="85" label="帳號" />
+            <el-table-column align="center" prop="name" label="場站" />
+            <el-table-column align="center" prop="plate" label="車號" />
+            <el-table-column align="center" prop="user_name" label="用戶名" />
+            <el-table-column align="center" prop="user_acc" label="帳號" />
             <el-table-column align="center" label="查看">
                 <template #default="scope">
                     <el-button @click="viewDetails(scope.row)">查看明細</el-button>
