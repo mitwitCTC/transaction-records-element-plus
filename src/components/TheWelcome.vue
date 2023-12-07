@@ -9,7 +9,7 @@ import {
 import FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 
-const Api = 'https://b0bf-122-116-23-30.ngrok-free.app';
+const Api = 'http://219.85.163.90:3000';
 
 export default {
   data() {
@@ -306,7 +306,14 @@ export default {
       <el-table-column label="帳號" prop="user_acc" align="center" width="90"></el-table-column>
       <el-table-column label="帳戶餘額" prop="newAmount" align="center" width="100"
         :formatter="amountFormatter"></el-table-column>
-      <el-table-column label="發票號碼" prop="invoice" align="center" width="150"></el-table-column>
+      <el-table-column label="發票號碼" align="center" width="150">
+        <template v-slot="{ row }">
+          <a :href="`https://mitwit-line-web-server.herokuapp.com/download/pdf/${row.token}/?inv=${row.inv}&openExternalBrowser=1`"
+            target="_blank">
+            {{ row.invoice }}
+          </a>
+        </template>
+      </el-table-column>
       <el-table-column label="金額" prop="totalAmount" align="center" width="80"></el-table-column>
       <el-table-column label="隨機碼" prop="randomCode" align="center" width="80"></el-table-column>
       <el-table-column label="發票日期" prop="invoiceDate" align="center" width="150"></el-table-column>
