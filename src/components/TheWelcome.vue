@@ -244,7 +244,7 @@ export default {
     },
     maxSearchFromDate() {
       const today = new Date();
-      const maxDate = new Date(today.getFullYear(), today.getMonth() - 2, today.getDate());
+      const maxDate = new Date(today.getFullYear(), today.getMonth() - 3, today.getDate());
       return maxDate.toISOString().slice(0, 10);
     },
   },
@@ -308,10 +308,11 @@ export default {
         :formatter="amountFormatter"></el-table-column>
       <el-table-column label="發票號碼" align="center" width="150">
         <template v-slot="{ row }">
-          <a :href="`https://mitwit-line-web-server.herokuapp.com/download/pdf/${row.token}/?inv=${row.inv}&openExternalBrowser=1`"
+          <a v-if="row.inv != ''" :href="`https://mitwit-line-web-server.herokuapp.com/download/pdf/${row.token}/?inv=${row.inv}&openExternalBrowser=1`"
             target="_blank">
             {{ row.invoice }}
           </a>
+          <span v-else>{{ row.invoice }}</span>
         </template>
       </el-table-column>
       <el-table-column label="金額" prop="totalAmount" align="center" width="80"></el-table-column>
