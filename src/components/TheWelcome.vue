@@ -16,122 +16,7 @@ export default {
     return {
       plate: '',
       isLoading: true,
-      transactions: [
-        {
-          "chargeType": "扣抵",
-          "name": "test",
-          "parkTax": "87545768",
-          "plate": "BGB-3832",
-          "user_acc": "99769806509643",
-          "newAmount": 3235,
-          "invoice": "TE43427304",
-          "totalAmount": 40,
-          "randomCode": "7304",
-          "invoiceDate": "2023-10-11",
-          "arrivalTime": "2023-10-11 14:16:14",
-          "logTime": "2023-10-11 14:59:11",
-          "Bidentifier": null,
-          "BName": null
-        },
-        {
-          "chargeType": "扣抵",
-          "name": "助安板橋殯儀館",
-          "parkTax": "87545768",
-          "plate": "BGB-3832",
-          "user_acc": "99769806509643",
-          "newAmount": 3275,
-          "invoice": "TE43426936",
-          "totalAmount": 40,
-          "randomCode": "6936",
-          "invoiceDate": "2023-10-09",
-          "arrivalTime": "2023-10-09 07:23:18",
-          "logTime": "2023-10-09 08:15:45",
-          "Bidentifier": null,
-          "BName": null
-        },
-        {
-          "chargeType": "儲值",
-          "name": "助安板橋殯儀館",
-          "parkTax": "87545768",
-          "plate": "BGB-3832",
-          "user_acc": "99769806509643",
-          "newAmount": 3315,
-          "logTime": "2023-10-06 14:11:13"
-        },
-        {
-          "chargeType": "儲值",
-          "name": "助安板橋殯儀館",
-          "parkTax": "87545768",
-          "plate": "BGB-3832",
-          "user_acc": "99769806509643",
-          "newAmount": 2245,
-          "logTime": "2023-10-05 11:51:08"
-        },
-        {
-          "chargeType": "扣抵",
-          "name": "助安板橋殯儀館",
-          "parkTax": "87545768",
-          "plate": "BGB-3832",
-          "user_acc": "99769806509643",
-          "newAmount": 245,
-          "invoice": "TE43426244",
-          "totalAmount": 40,
-          "randomCode": "6244",
-          "invoiceDate": "2023-10-04",
-          "arrivalTime": "2023-10-04 10:41:55",
-          "logTime": "2023-10-04 11:31:36",
-          "Bidentifier": null,
-          "BName": null
-        },
-        {
-          "chargeType": "扣抵",
-          "name": "助安板橋殯儀館",
-          "parkTax": "87545768",
-          "plate": "BGB-3832",
-          "user_acc": "99769806509643",
-          "newAmount": 285,
-          "invoice": "TE43426017",
-          "totalAmount": 60,
-          "randomCode": "6017",
-          "invoiceDate": "2023-10-02",
-          "arrivalTime": "2023-10-02 13:22:05",
-          "logTime": "2023-10-02 14:28:58",
-          "Bidentifier": null,
-          "BName": null
-        },
-        {
-          "chargeType": "扣抵",
-          "name": "助安板橋殯儀館",
-          "parkTax": "87545768",
-          "plate": "BGB-3832",
-          "user_acc": "99769806509643",
-          "newAmount": 345,
-          "invoice": "TE43425979",
-          "totalAmount": 40,
-          "randomCode": "5979",
-          "invoiceDate": "2023-10-02",
-          "arrivalTime": "2023-10-02 10:25:59",
-          "logTime": "2023-10-02 11:03:49",
-          "Bidentifier": null,
-          "BName": null
-        },
-        {
-          "chargeType": "扣抵",
-          "name": "助安板橋殯儀館",
-          "parkTax": "87545768",
-          "plate": "BGB-3832",
-          "user_acc": "99769806509643",
-          "newAmount": 385,
-          "invoice": "TE43401898",
-          "totalAmount": 30,
-          "randomCode": "1898",
-          "invoiceDate": "2023-09-28",
-          "arrivalTime": "2023-09-28 15:18:44",
-          "logTime": "2023-09-28 15:49:23",
-          "Bidentifier": null,
-          "BName": null
-        },
-      ],
+      transactions: [],
       currentPage: 1,
       pageSize: 10,
       startDate: '',
@@ -180,6 +65,9 @@ export default {
     },
     // 數字千分位格式
     amountFormatter(row, column, cellValue) {
+      if (cellValue === undefined || cellValue === null) {
+        return '';
+      }
       cellValue += '';
       if (!cellValue.includes('.')) cellValue += '.';
       return cellValue.replace(/(\d)(?=(\d{3})+\.)/g, function ($0, $1) {
@@ -304,6 +192,7 @@ export default {
       <el-table-column label="賣方統編" prop="parkTax" align="center" width="100"></el-table-column>
       <el-table-column label="車號" prop="plate" align="center" width="100"></el-table-column>
       <el-table-column label="帳號" prop="user_acc" align="center" width="90"></el-table-column>
+      <el-table-column label="交易金額" prop="Amount" align="center" width="90" :formatter="amountFormatter"></el-table-column>
       <el-table-column label="帳戶餘額" prop="newAmount" align="center" width="100"
         :formatter="amountFormatter"></el-table-column>
       <el-table-column label="發票號碼" align="center" width="150">
@@ -315,7 +204,7 @@ export default {
           <span v-else>{{ row.invoice }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="金額" prop="totalAmount" align="center" width="80"></el-table-column>
+      <el-table-column label="發票金額" prop="totalAmount" align="center" width="80" :formatter="amountFormatter"></el-table-column>
       <el-table-column label="隨機碼" prop="randomCode" align="center" width="80"></el-table-column>
       <el-table-column label="發票日期" prop="invoiceDate" align="center" width="150"></el-table-column>
       <el-table-column label="入場時間" prop="arrivalTime" align="center" width="200"></el-table-column>
@@ -326,13 +215,27 @@ export default {
   </div>
   <div class="none">
     <el-table :data="transactions" id="transactionsTable" class="el-table" style="font-size: 1rem;" stripe>
+      <el-table-column label="儲值種類" prop="chargeType" align="center" width="60"></el-table-column>
       <el-table-column label="場站" prop="name" align="center" width="90"></el-table-column>
       <el-table-column label="賣方統編" prop="parkTax" align="center" width="100"></el-table-column>
       <el-table-column label="車號" prop="plate" align="center" width="100"></el-table-column>
-      <el-table-column label="發票號碼" prop="invoice" align="center" width="150"></el-table-column>
-      <el-table-column label="金額" prop="totalAmount" align="center" width="80"></el-table-column>
+      <el-table-column label="帳號" prop="user_acc" align="center" width="90"></el-table-column>
+      <el-table-column label="交易金額" prop="Amount" align="center" width="90"></el-table-column>
+      <el-table-column label="帳戶餘額" prop="newAmount" align="center" width="100"></el-table-column>
+      <el-table-column label="發票號碼" align="center" width="150">
+        <template v-slot="{ row }">
+          <a v-if="row.inv != ''" :href="`https://mitwit-line-web-server.herokuapp.com/download/pdf/${row.token}/?inv=${row.inv}&openExternalBrowser=1`"
+            target="_blank">
+            {{ row.invoice }}
+          </a>
+          <span v-else>{{ row.invoice }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="發票金額" prop="totalAmount" align="center" width="80"></el-table-column>
       <el-table-column label="隨機碼" prop="randomCode" align="center" width="80"></el-table-column>
       <el-table-column label="發票日期" prop="invoiceDate" align="center" width="150"></el-table-column>
+      <el-table-column label="入場時間" prop="arrivalTime" align="center" width="200"></el-table-column>
+      <el-table-column label="變動時間" prop="logTime" align="center" width="200"></el-table-column>
       <el-table-column label="買方統編" prop="Bidentifier" align="center" width="100"></el-table-column>
       <el-table-column label="買方抬頭" prop="BName" align="center" width="100"></el-table-column>
     </el-table>

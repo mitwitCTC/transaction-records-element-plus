@@ -18,32 +18,7 @@ export default {
     },
     data() {
         return {
-            plateList: [
-                {
-                    "userId": "4_11206820045",
-                    "user_name": "劉文吉",
-                    "plate": "BLG-6250",
-                    "parkTax": "87545768",
-                    "user_acc": "99769806509623",
-                    "name": "助安板橋殯儀館"
-                },
-                {
-                    "userId": "4_11206820047",
-                    "user_name": "劉文吉",
-                    "plate": "BGB-3832",
-                    "parkTax": "87545768",
-                    "user_acc": "99769806509643",
-                    "name": "助安板橋殯儀館"
-                },
-                {
-                    "userId": "4_11206820046",
-                    "user_name": "劉文吉",
-                    "plate": "BUK-1871",
-                    "parkTax": "87545768",
-                    "user_acc": "99769806509638",
-                    "name": "助安板橋殯儀館"
-                }
-            ],
+            plateList: [],
             isLoading: true,
             mid: '',
             c: '',
