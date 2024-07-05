@@ -2,7 +2,6 @@
 import {
   ElTable,
   ElTableColumn,
-  ElButton,
   ElPagination,
 } from 'element-plus';
 
@@ -37,15 +36,47 @@ export default {
     exportExcel() {
       let xlsxParam = { raw: true };
       let wb = XLSX.utils.table_to_book(document.querySelector('#transactionsTable'), xlsxParam);
-      const wbout = XLSX.write(wb, { booklype: 'xlsx', bookSST: true, type: 'array' });
+
+      // 獲取工作表
+      let ws = wb.Sheets[wb.SheetNames[0]];
+
+      // 設置儲存格格式
+      let range = XLSX.utils.decode_range(ws['!ref']);
+      for (let R = range.s.r; R <= range.e.r; ++R) {
+        for (let C = range.s.c; C <= range.e.c; ++C) {
+          let cell_address = { c: C, r: R };
+          let cell_ref = XLSX.utils.encode_cell(cell_address);
+            
+          if (!ws[cell_ref]) continue;
+          if (!ws[cell_ref].s) ws[cell_ref].s = {};
+          ws[cell_ref].s.alignment = { horizontal: "center", vertical: "center" };
+        }
+      }
+      // 設置欄位寬度
+      let colWidths = [];
+      for (let C = range.s.c; C <= range.e.c; ++C) {
+        let maxWidth = 14;
+         for (let R = range.s.r; R <= range.e.r; ++R) {
+          let cell_address = { c: C, r: R };
+          let cell_ref = XLSX.utils.encode_cell(cell_address);
+          let cell = ws[cell_ref];
+          if (!cell || !cell.v) continue;
+          let cellValue = cell.v.toString();
+          maxWidth = Math.max(maxWidth, cellValue.length);
+        }
+        colWidths.push({ wch: maxWidth });
+      }
+      ws['!cols'] = colWidths;
+      // 將工作簿寫出
+      const wbout = XLSX.write(wb, { bookType: 'xlsx', bookSST: true, type: 'array' });
       try {
         FileSaver.saveAs(new Blob([wbout], { type: 'application/octet-stream' }), `儲值扣抵明細.xlsx`);
       } catch (e) {
-        if (typeof console !== undefined) {
+        if (console) {
           console.log(e, wbout);
         }
       }
-      return wbout
+      return wbout;
     },
     getMidnC() {
       this.mid = this.$route.query.mid;
@@ -139,7 +170,6 @@ export default {
   components: {
     ElTable,
     ElTableColumn,
-    ElButton,
     ElPagination,
   },
 }
