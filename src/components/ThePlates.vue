@@ -8,7 +8,7 @@ import 'element-plus/theme-chalk/index.css';
 
 
 
-const Api = 'http://219.85.163.90:3000';
+const Api = 'https://topup3000.mitwit-cre.com.tw';
 
 export default {
     components: {
