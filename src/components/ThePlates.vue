@@ -73,7 +73,6 @@ export default {
     </div>
     <div v-if="!isLoading" class="container">
         <el-table :data="plateList" stripe style="align-items: center" width="100%" height="60vh">
-            <el-table-column align="center" prop="name" label="場站" />
             <el-table-column align="center" prop="plate" label="車號" />
             <el-table-column align="center" prop="user_name" label="用戶名" />
             <el-table-column align="center" prop="user_acc" label="帳號" />
