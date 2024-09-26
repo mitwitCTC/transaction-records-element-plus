@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/",
+  base: "/service/month/month_rent/plates",
   plugins: [
     vue(),
   ],

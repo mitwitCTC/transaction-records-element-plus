@@ -14,7 +14,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/service/month/month_rent/plates/detail',
+      path: '/detail',
       name: 'home',
       component: HomeView,
       // beforeEnter: (to, from, next) => {
@@ -40,7 +40,7 @@ const router = createRouter({
       },
     },
     {
-      path: '/service/month/month_rent/plates',
+      path: '/',
       name: 'plateList',
       component: PlatelistView,
       props: {
