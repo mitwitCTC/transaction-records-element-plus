@@ -16,6 +16,7 @@ export default {
       plate: '',
       isLoading: true,
       transactions: [],
+      invoiceMonth: "",
       currentPage: 1,
       pageSize: 10,
       startDate: '',
@@ -104,6 +105,13 @@ export default {
       return cellValue.replace(/(\d)(?=(\d{3})+\.)/g, function ($0, $1) {
         return $1 + ',';
       }).replace(/\.$/, '');
+    },
+    // 發票年月格式
+    formatDateToYYYYMM(dateStr) {
+      const d = new Date(dateStr);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      return `${year}${month}`;
     },
     search() {
       this.isLoading = true;
@@ -227,7 +235,7 @@ export default {
         :formatter="amountFormatter"></el-table-column>
       <el-table-column label="發票號碼" align="center" width="150">
         <template v-slot="{ row }">
-          <a v-if="row.inv != ''" :href="`https://mitwit-line-web-server.herokuapp.com/download/pdf/${row.token}/?inv=${row.inv}&openExternalBrowser=1`"
+          <a v-if="row.inv != ''" :href="`https://rental.mitwit-cre.com.tw/d/media/pdb/${formatDateToYYYYMM(row.invoiceDate)}/${row.invoice}`"
             target="_blank">
             {{ row.invoice }}
           </a>
@@ -254,7 +262,7 @@ export default {
       <el-table-column label="帳戶餘額" prop="newAmount" align="center" width="100"></el-table-column>
       <el-table-column label="發票號碼" align="center" width="150">
         <template v-slot="{ row }">
-          <a v-if="row.inv != ''" :href="`https://mitwit-line-web-server.herokuapp.com/download/pdf/${row.token}/?inv=${row.inv}&openExternalBrowser=1`"
+          <a v-if="row.inv != ''" :href="`https://rental.mitwit-cre.com.tw/d/media/pdb/${formatDateToYYYYMM(row.invoiceDate)}/${row.invoice}`"
             target="_blank">
             {{ row.invoice }}
           </a>
